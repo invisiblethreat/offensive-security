@@ -52,20 +52,16 @@ tmp_dir(dir)
 atexit.register(cleanup, dir)
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+Handler.sys_version = ""
 
 #Let's redefine the default values to suit our purposes
 try:
   Handler.server_version = sys.argv[2]
 except:
-  Handler.server_version = "Apache/2.2.3"
+  Handler.server_version = "Apache/2.2.3 PHP/5.1.6"
 
-try:
-  Handler.sys_version = sys.argv[3]
-except:
-  Handler.sys_version = "PHP/5.1.6"
 
 print "Server: " + Handler.server_version
-print "Extra : " + Handler.sys_version
 print "Port  : " + str(port)
 
 httpd = SocketServer.TCPServer(("", port), Handler)
