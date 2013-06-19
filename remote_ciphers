@@ -1,0 +1,31 @@
+#!/bin/bash
+if [ -z $1 ]; then
+  echo "Usage: $0 site:port"
+  exit 1
+fi
+
+for i in `openssl ciphers|tr ":" " "`
+do
+  echo "GET /\n\n"|  openssl s_client -connect $1 -cipher $i 2>&1|grep "no ciphers available" >/dev/null
+  if [ $? -eq 1 ]; then
+    SUP+=("$i")
+  else
+    UNSUP+=("$i")
+  fi
+done
+
+max=${#SUP[@]}
+echo "========== Supported Ciphers for $1: $max =========="
+i=0
+while [ $i -lt $max ]; do
+  echo ${SUP[$i]}
+  let i=i+1
+done
+
+max=${#UNSUP[@]}
+echo "========= Unsupported Ciphers for $1: $max ========="
+i=0
+while [ $i -lt $max ]; do
+  echo ${SUP[$i]}
+  let i=i+1
+done
