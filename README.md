@@ -7,3 +7,7 @@ shep.py
 -------
 Set arbitrary HTTP headers. Headers like '; DROP TABLE servers; -- if
 you feel so inclined.
+
+remote_cipers
+-------------
+Enumerate remote ciphers with OpenSSL.
