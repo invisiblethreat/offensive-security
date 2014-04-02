@@ -1,0 +1,9 @@
+#!/bin/bash
+prefix=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c32)
+res=$(host $prefix.$1 2>&1 >/dev/null; echo $?)
+
+if [ "$res" == "0"  ]; then
+  echo "$1 has a wildcard DNS record"
+else
+  echo "$1 does not have a wildcard DNS record"
+fi
