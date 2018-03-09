@@ -1,0 +1,2 @@
+#!/bin/bash
+w3m -dump http://download.redis.io/releases/ |sed 's/redis-//g; s/\.tar\.gz//g'|perl -lane 'print $F[2]'
