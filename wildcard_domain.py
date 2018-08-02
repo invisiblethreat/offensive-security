@@ -6,8 +6,12 @@ import sys
 prefix = uuid.uuid4()
 domain = sys.argv[1]
 
+wild = str(prefix) + "." + domain
+
 try:
-  result = socket.gethostbyname(str(prefix) + "." + domain)
+  print "Trying to resolve %s" % wild
+  result = socket.gethostbyname(wild)
+  print "%s resolves to %s" % (wild, result)
   print "%s has a wildcard DNS entry" % sys.argv[1]
 
 except:
